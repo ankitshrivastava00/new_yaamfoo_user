@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "806133966307",
+    "project_id": "yaamfoo",
+    "storage_bucket": "yaamfoo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806133966307:android:52d8439666d0332bce6cd6",
+        "android_client_info": {
+          "package_name": "com.sis.yaamfoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806133966307-40v1r48o4892d7tj1f3hvr7j2prij6a0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFs3WhO5BiOjDc4uS0kciAwYLw6zkFTFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806133966307-40v1r48o4892d7tj1f3hvr7j2prij6a0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
