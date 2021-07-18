@@ -61,32 +61,146 @@ class DBProvider {
           await db.execute("CREATE TABLE Extra ("
               "id INTEGER PRIMARY KEY,"
               "product_id TEXT,"
-              "product_name TEXT,"
-              "weight TEXT,"
-              "unit TEXT,"
-              "price TEXT,"
-              "description TEXT,"
-              "offerprice TEXT,"
-              "offerpercent TEXT,"
-              "totalquantity TEXT,"
-              "cartquantity TEXT,"
-              "type TEXT,"
-              "modelname TEXT,"
-              "packof TEXT,"
-              "teaform TEXT,"
-              "flavor TEXT,"
-              "organic TEXT,"
-              "defaultImage TEXT,"
-              "Total TEXT,"
-              "Discount TEXT,"
-              "sizeId TEXT,"
-              "sizeName TEXT,"
-              "sizePrice TEXT"
+              "extra_id TEXT,"
+              "e_price TEXT,"
+              "e_quantity TEXT,"
+              "total_e_price TEXT,"
+              "total_e_quantity TEXT"
 
               ")");
         });
   }
 
+
+/*------------------------------------------  EXTRA TABLE  -----------------------------------------------------*/
+
+
+  deleteAllExtra() async {
+    final db = await database;
+    db.rawDelete("DELETE FROM Extra");
+  }
+
+
+  deleteExtra(String product_id, String extra_id) async {
+    final db = await database;
+    /* Fluttertoast.showToast(msg: "Item removed successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity:
+        ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: ColorValues.SIGIN_TITLE_COLOR,
+        textColor: Colors.white,
+        fontSize: 16.0);*/
+    return db.delete("Extra", where: "product_id = ? AND extra_id = ?",
+        whereArgs: [product_id, extra_id]);
+  }
+
+  Future calculateExtraPrice() async {
+    final db = await database;
+    //  var result = await db.rawQuery("SELECT SUM(Total) as Total FROM Cart");
+    var result = await db.rawQuery("SELECT SUM(total_e_price) as e_price FROM Extra");
+    print('totalmrp ${result.toList()}');
+    return result.toList();
+  }
+
+  FinalExtra(String product_id,
+      String extra_id,
+      String e_price,
+      String e_quantity,
+      String total_e_price,
+      String total_e_quantity
+
+      ) async {
+    final db = await database;
+    var res = await db.query(
+        "Extra", where: "product_id = ? AND extra_id = ?", whereArgs: [product_id,extra_id]);
+    return res.isNotEmpty ?
+    updateExtra(
+        product_id,
+        extra_id,
+        e_price,
+        e_quantity,
+        total_e_price,
+        total_e_quantity
+    )
+
+        :
+
+    insertExtra(
+        product_id,
+        extra_id,
+        e_price,
+        e_quantity,
+        total_e_price,
+        total_e_quantity
+    )
+    ;
+  }
+  insertExtra(String product_id,
+      String extra_id,
+      String e_price,
+      String e_quantity,
+      String total_e_price,
+      String total_e_quantity
+
+
+      ) async {
+    final db = await database;
+    //get the biggest id in the table
+    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Extra");
+    int id = table.first["id"];
+    //insert to the table using the new id
+    var raw = await db.rawInsert(
+        "INSERT Into Cart (id,product_id,extra_id,e_price,e_quantity,total_e_price,total_e_quantity)"
+            " VALUES (?,?,?,?,?,?,?)",
+        [ id,
+          product_id,
+          extra_id,
+          e_price,
+          e_quantity,
+          total_e_price,
+          total_e_quantity
+        ]);
+
+    return raw;
+  }
+
+
+  updateExtra(
+      String product_id,
+      String extra_id,
+      String e_price,
+      String e_quantity,
+      String total_e_price,
+      String total_e_quantity
+
+
+      ) async {
+
+    final db = await database;
+        var res =
+    db.rawUpdate(
+        "UPDATE Cart SET  e_quantity = '${e_quantity}',"
+            "total_e_price = '${total_e_price}',"
+                       " WHERE product_id = '${product_id}' AND extra_id = '${extra_id}'");
+
+/*
+
+    Fluttertoast.showToast(msg: "Updated in the Cart",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: ColorValues.SIGIN_TITLE_COLOR,
+        textColor: Colors.white,
+        fontSize: 16.0);
+*/
+
+    return res;
+  }
+
+
+
+/*------------------------------------------  EXTRA TABLE  -----------------------------------------------------*/
   FinalClient(String pro_id,
       String product_name,
       String weight,

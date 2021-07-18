@@ -2161,10 +2161,7 @@ new Expanded(
                         ),
                         new Expanded(
                           child: new Text(
-                            "₹ ${(double.tryParse(
-                                '${popularFood[index].quntity}') *
-                                double.tryParse(
-                                    '${sizePrice}'))}",
+                            "₹ ${(double.tryParse('${popularFood[index].quntity}') * double.tryParse('${sizePrice}'))+(double.tryParse('${popularFood[index].subItem[0].price}')*double.tryParse('${popularFood[index].subItem[0].subQuantity}'))+(double.tryParse('${popularFood[index].subItem[1].price}')*double.tryParse('${popularFood[index].subItem[1].subQuantity}'))}",
                             style: new TextStyle(
                                 fontFamily: "customRegular",
                                 color: ColorValues.YELLOW,

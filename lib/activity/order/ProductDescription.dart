@@ -36,6 +36,10 @@ class ProductDescriptionState extends State<ProductDescription> {
     // TODO: implement initState
     super.initState();
     getSharedPreferences();
+    sizeId= '${widget.popularFood.size[0].id}';
+    sizeName= widget.popularFood.size[0].size;
+    sizePrice = '${widget.popularFood.size[0].price}';
+    widget.popularFood.size[0].isSelect=true;
   }
 
 
@@ -515,10 +519,19 @@ Column(
                                           onTap: (){
                                             setState(() {
                                               if(widget.popularFood.subItem[0].subQuantity==0){
-
+                                                DBProvider.db.deleteExtra('${widget.popularFood.id}','${widget.popularFood.subItem[0].id}');
                                               }else{
                                                 widget.popularFood.subItem[0].subQuantity--;
 
+                                                DBProvider.db.FinalExtra(
+                                                    '${widget.popularFood.id}',
+                                                    '${widget.popularFood.subItem[0].id}',
+                                                    '${widget.popularFood.subItem[0].price}',
+                                                    '${widget.popularFood.subItem[0].subQuantity}',
+                                                    '${(double.tryParse('${widget.popularFood.subItem[0].price}') * double.tryParse('${widget.popularFood.subItem[0].subQuantity}'))}',
+                                                    '${widget.popularFood.subItem[0].subQuantity}'
+
+                                                );
                                               }
 
                                             });
@@ -535,7 +548,22 @@ Column(
                                           onTap: (){
                                             setState(() {
                                               widget.popularFood.subItem[0].subQuantity++;
+                                            /*  String product_id,
+                                                  String extra_id,
+                                              String e_price,
+                                              String e_quantity,
+                                              String total_e_price,
+                                              String total_e_quantity*/
 
+                                              DBProvider.db.FinalExtra(
+                                                  '${widget.popularFood.id}',
+                                                  '${widget.popularFood.subItem[0].id}',
+                                                  '${widget.popularFood.subItem[0].price}',
+                                                  '${widget.popularFood.subItem[0].subQuantity}',
+                                                  '${(double.tryParse('${widget.popularFood.subItem[0].price}') * double.tryParse('${widget.popularFood.subItem[0].subQuantity}'))}',
+                                                  '${widget.popularFood.subItem[0].subQuantity}'
+
+                                              );
                                             });
                                           },
                                           child: Padding(
@@ -630,10 +658,20 @@ Column(
                                           onTap: (){
                                             setState(() {
                                               if(widget.popularFood.subItem[1].subQuantity==0){
+                                                DBProvider.db.deleteExtra('${widget.popularFood.id}','${widget.popularFood.subItem[1].id}');
 
                                               }else{
                                                 widget.popularFood.subItem[1].subQuantity--;
 
+                                                DBProvider.db.FinalExtra(
+                                                    '${widget.popularFood.id}',
+                                                    '${widget.popularFood.subItem[1].id}',
+                                                    '${widget.popularFood.subItem[1].price}',
+                                                    '${widget.popularFood.subItem[1].subQuantity}',
+                                                    '${(double.tryParse('${widget.popularFood.subItem[1].price}') * double.tryParse('${widget.popularFood.subItem[1].subQuantity}'))}',
+                                                    '${widget.popularFood.subItem[1].subQuantity}'
+
+                                                );
                                               }
 
                                             });
@@ -651,6 +689,15 @@ Column(
                                             setState(() {
                                               widget.popularFood.subItem[1].subQuantity++;
 
+                                              DBProvider.db.FinalExtra(
+                                                  '${widget.popularFood.id}',
+                                                  '${widget.popularFood.subItem[1].id}',
+                                                  '${widget.popularFood.subItem[1].price}',
+                                                  '${widget.popularFood.subItem[1].subQuantity}',
+                                                  '${(double.tryParse('${widget.popularFood.subItem[1].price}') * double.tryParse('${widget.popularFood.subItem[1].subQuantity}'))}',
+                                                  '${widget.popularFood.subItem[1].subQuantity}'
+
+                                              );
                                             });
                                           },
                                           child: Padding(
@@ -703,10 +750,7 @@ Column(
                                   ),
                                   new Expanded(
                                     child: new Text(
-                                      "₹ ${(double.tryParse(
-                                          '${widget.popularFood.quntity}') *
-                                          double.tryParse(
-                                              '${sizePrice}'))}",
+                                      "₹ ${(double.tryParse('${widget.popularFood.quntity}') * double.tryParse('${sizePrice}'))+(double.tryParse('${widget.popularFood.subItem[0].price}')*double.tryParse('${widget.popularFood.subItem[0].subQuantity}'))+(double.tryParse('${widget.popularFood.subItem[1].price}')*double.tryParse('${widget.popularFood.subItem[1].subQuantity}'))}",
                                       style: new TextStyle(
                                           fontFamily: "customRegular",
                                           color: ColorValues.YELLOW,
@@ -847,6 +891,7 @@ Column(
                                                     sizeName,
                                                     sizePrice
                                                 );
+
                                                 Navigator.pop(context);
 
                                                 Fluttertoast.showToast(
