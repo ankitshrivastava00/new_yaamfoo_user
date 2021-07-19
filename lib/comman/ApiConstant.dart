@@ -11,7 +11,8 @@ class ApiConstant{
   static final String OTP_VERIFY = BaseURL+"/user/otp-verifiction/";
   static final String FORGOT_URL = BaseURL+"/user/api-forgot-password/";
   static final String PROFIL_URL = BaseURL+"/user/1/user-details/";
-  static final String HOME_URL = BaseURL+"/restaurant/home-page/";
+  static final String HOME_URL = BaseURL+"/restaurant/home-page/?user=";
+
   static final String RESTURANT_SINGLE = BaseURL+"/restaurant/restaurant-page/?restaurant_id=";
   static final String FAVORITE_LIST = BaseURL+"/restaurant/favorite/?user=";
   static final String ADD_FAVORITE = BaseURL+"/restaurant/favorite/";

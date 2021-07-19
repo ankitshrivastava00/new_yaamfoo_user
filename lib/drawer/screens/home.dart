@@ -42,17 +42,17 @@ class _HomeState extends State<Home> {
 
   homeModel _homeModel;
   var isLoading=false,favoriteLoad=false;
-  productApi() async {
+
+  productApi(id) async {
     // set up POST request arguments
     setState(() {
       isLoading=true;
-
     });
 
     try {
       print("body+++++");
       //  CustomProgressLoader.showLoader(context);
-      var url =Uri.parse(ApiConstant.HOME_URL);
+      var url =Uri.parse(ApiConstant.HOME_URL+id);
       Map<String, String> headers = {"Content-type": "application/json"};
 
       Response response = await get(url, headers: headers);
@@ -67,8 +67,6 @@ class _HomeState extends State<Home> {
         restaurant = [];
         popularFood = [];
         _homeModel = homeModel.fromJson(json.decode(body));
-
-
         setState(() {
           category.addAll(_homeModel.data.category);
           restaurant.addAll(_homeModel.data.restaurant);
@@ -231,14 +229,12 @@ try {
     super.initState();
     getSharedPreferences();
 
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance.addPostFrameCallback((_) => productApi());
-    }
+
 
   }
   getSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
+    productApi(prefs.getString(Constant.USER_ID));
     setState(() {
 
       userId=prefs.getString(Constant.USER_ID);
@@ -246,7 +242,8 @@ try {
       _name=prefs.getString(Constant.USER_NAME);
 
     });
-  }
+
+     }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
