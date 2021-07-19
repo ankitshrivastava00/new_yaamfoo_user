@@ -34,7 +34,8 @@ class _HomeState extends State<Home> {
   bool changecolore=true;
   SharedPreferences prefs;
   String _name,_email,userId;
-  String sizeId="",sizeName="",sizePrice="0.0";
+  String sizeId="0",sizeName="0",sizePrice="0.0";
+  String subItemPrice="0",subItemQuantuty="0";
 
   List<Category> category= new List();
   List<Restaurant> restaurant= new List();
@@ -72,13 +73,6 @@ class _HomeState extends State<Home> {
           restaurant.addAll(_homeModel.data.restaurant);
           popularFood.addAll(_homeModel.data.popularFood);
 
-          setState(() {
-            sizeId= '${popularFood[0].size[0].id}';
-            sizeName= popularFood[0].size[0].size;
-            sizePrice = '${popularFood[0].size[0].price}';
-            popularFood[0].size[0].isSelect=true;
-
-          });
           isLoading=false;
 
         });
@@ -1258,6 +1252,29 @@ child:                       new InkWell(
                                                 ),
                                                 onTap: (){
 
+                                                  setState(() {
+                                                    if(popularFood[index].size.length!=0) {
+                                                      sizeId = '${popularFood[index].size[0].id}';
+                                                      sizeName = popularFood[index].size[0].size;
+                                                      sizePrice = '${popularFood[index].size[0].price}';
+                                                      for (var i = 0; i < popularFood[index]
+                                                          .size.length; i++) {
+                                                        if(i == 0){
+                                                          popularFood[index].size[i].isSelect = true;
+
+                                                        }
+                                                        else{
+                                                          popularFood[index]
+                                                              .size[i]
+                                                              .isSelect =
+                                                          false;
+                                                        }
+                                                      }                                                    }else{
+                                                      sizeId = '';
+                                                      sizeName = '';
+                                                      sizePrice = '${popularFood[index].price}';
+                                                    }
+                                                  });
                                                   showModalBottomSheet(
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
@@ -1447,13 +1464,13 @@ child:                       new InkWell(
                   ),
 
                 ),
-                new Container(
+                popularFood[index].size.length==0?new Center():  new Container(
                   margin: EdgeInsets.fromLTRB(00.0, 5.0, 0.0, 5.0),
 
                   height: 0.5,
                   color: ColorValues.TIME_NOTITFICAITON,
                 ),
-                new Padding(
+                popularFood[index].size.length==0?new Center():     new Padding(
                   padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
                   child: new Text(
                     "Size",
@@ -1465,7 +1482,7 @@ child:                       new InkWell(
                   ),
                 ),
 
-                PaddingWrap.paddingfromLTRB(
+                popularFood[index].size.length==0?new Center():PaddingWrap.paddingfromLTRB(
                   5.0,
                   5.0,
                   0.0,
@@ -1474,6 +1491,92 @@ child:                       new InkWell(
                     padding:
                     const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
                     child:
+                    Container(
+
+                        height: 40.0,
+                        margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int sizeIndex) {
+                            return
+                              GestureDetector(
+                                onTap: () {
+                                  /*  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ProductDetails()));*/
+                                },
+                                child:
+
+    InkWell(child:
+    Container(
+
+    margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+    width: 100.0,
+    height: 40.0,
+
+
+    child: Card(
+
+    elevation: 5.0,
+    color:popularFood[index].size[sizeIndex].isSelect?ColorValues.TEXT_COLOR:Colors.white,
+    shape: RoundedRectangleBorder(
+
+    borderRadius: BorderRadius.circular(2),
+    ),
+    child:  Container(
+
+    margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+    width: 100.0,
+    height: 40.0,
+    alignment: Alignment.center,
+
+
+    child: Text(
+    "${popularFood[index].size[sizeIndex].size}",
+    textAlign: TextAlign.center,
+    style: TextStyle(
+
+    color:popularFood[index].size[sizeIndex].isSelect?Colors.white:ColorValues.TEXT_COLOR,
+    fontFamily: "customLight",
+    fontSize: 13.0,
+    ),
+    ),
+    ),
+    ),
+    ),
+
+    onTap: (){
+    setState(() {
+    sizeId= '${popularFood[index].size[sizeIndex].id}';
+    sizeName= popularFood[index].size[sizeIndex].size;
+    sizePrice = '${popularFood[index].size[sizeIndex].price}';
+    for (var i = 0; i < popularFood[index]
+        .size.length; i++) {
+      if(i == sizeIndex){
+        popularFood[index]
+            .size[i]
+            .isSelect =
+        true;
+      }
+      else{
+        popularFood[index]
+            .size[i]
+            .isSelect =
+        false;
+      }
+    }
+  //  popularFood[index].size[sizeIndex].isSelect=true;
+  //  popularFood[index].size[sizeIndex].isSelect=false;
+
+    });                          })
+                              );
+                          },
+                          itemCount: popularFood[index].size.length,
+                        )
+                    ),
+
+
+/*
                     new Row(
 
                       mainAxisSize: MainAxisSize.max,
@@ -1590,152 +1693,19 @@ new Expanded(
 
 
 
-/*
-                                                                              new Expanded(
-                                                                                child:
-                                                                                Container(
-
-                                                                                  margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                                                                                  width: 100.0,
-                                                                                  height: 40.0,
-
-
-                                                                                  child: Card(
-
-                                                                                    elevation: 5.0,
-                                                                                    color:Colors.white,
-                                                                                    shape: RoundedRectangleBorder(
-
-                                                                                      borderRadius: BorderRadius.circular(2),
-                                                                                    ),
-                                                                                    child:  Container(
-
-                                                                                      margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                                                                      width: 100.0,
-                                                                                      height: 40.0,
-                                                                                      alignment: Alignment.center,
-
-
-                                                                                      child: Text('Large',
-                                                                                        textAlign: TextAlign.center,
-                                                                                        style: TextStyle(
-
-                                                                                          color:ColorValues.TEXT_COLOR,
-                                                                                          fontFamily: "customLight",
-                                                                                          fontSize: 13.0,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                flex: 0,
-                                                                              ),
-*/
                       ],
                     ),
-                  ),
-
-                ),
-
-/*
-
-                PaddingWrap.paddingfromLTRB(
-                  5.0,
-                  5.0,
-                  0.0,
-                  5.0,
-                  Padding(
-                    padding:
-                    const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                    child:
-                    Container(
-
-                        height: 40.0,
-                        margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-
-                          itemBuilder: (BuildContext context, int subIndex) {
-                            return
-                              GestureDetector(
-                                onTap: () {
-    for (var i = 0; i < popularFood[index].size.length; i++) {
-
-                                    if(subIndex==i){
-
-
-                                      setState(() {
-                                        sizeId= '${popularFood[index].size[subIndex].id}';
-                                        sizeName= popularFood[index].size[subIndex].size;
-                                        popularFood[index].size[subIndex].isSelect=true;
-
-                                      });
-
-                                    }else{
-                                      setState(() {
-                                        popularFood[index].size[subIndex].isSelect=false;
-
-
-                                      });
-
-                                    }
-                                  }
-
-                                },
-                                child:
-
-                                new Expanded(
-                                  child:
-                                  Container(
-
-                                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                                    width: 100.0,
-                                    height: 40.0,
-
-
-                                    child: Card(
-
-                                      elevation: 5.0,
-                                      color:  popularFood[index].size[subIndex].isSelect? ColorValues.TEXT_COLOR:Colors.white,
-                                      shape: RoundedRectangleBorder(
-
-                                        borderRadius: BorderRadius.circular(2),
-                                      ),
-                                      child: Container(
-
-                                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                        width: 100.0,
-                                        height: 40.0,
-                                        alignment: Alignment.center,
-
-
-                                        child: Text(
-                                          "${popularFood[index].size[subIndex].size}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-
-                                            color:  !popularFood[index].size[subIndex].isSelect? ColorValues.TEXT_COLOR:Colors.white,
-                                            fontFamily: "customLight",
-                                            fontSize: 13.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                 // flex: 0,
-                                ),
-
-                              );
-                          },
-                          itemCount: popularFood[index].size.length,
-                        )
-                    ),
-                  ),
-
-                ),
 */
+                  ),
+
+                ),
 
 
+                popularFood[index].subItem.length==0?new Center():new Container(
+  child: new Column(
+      crossAxisAlignment:
+      CrossAxisAlignment.start,
+      children: [
                 new Padding(
                   padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
                   child: new Text(
@@ -1749,158 +1719,144 @@ new Expanded(
                         color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
                   ),
                 ),
+    Container(
 
-/*
+        height: 100.0,
+        margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemBuilder: (BuildContext context, int subItemIndex) {
+            return
+              GestureDetector(
+                onTap: () {
+                  /*  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ProductDetails()));*/
+                },
+                child:
+
                 PaddingWrap.paddingfromLTRB(
-                  5.0,
-                  5.0,
+                  10.0,
                   0.0,
-                  5.0,
-                  Padding(
-                    padding:
-                    const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                    child:
-                    Container(
+                  0.0,
+                  0.0,
+                  new Row(
 
-                        height: 100.0,
-                        margin: EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 0.0),
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      new Expanded(
+                        child:
+                        new Row(
+                          children: <Widget>[
+                            Image.asset(
+                              'image/burger.png',
+                              height: 20.0,
+                              width: 20.0,
+                            ),
 
-                          itemBuilder: (BuildContext context, int extraIndex) {
+                            new Padding(
+                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                              child: new Text(
+                                popularFood[index].subItem[subItemIndex].foodSubName,
+                                style: TextStyle(
+                                    fontFamily: 'customLight',
 
-                            return
-                              GestureDetector(
-
-                                child:
-
-                                PaddingWrap.paddingfromLTRB(
-                                  0.0,
-                                  0.0,
-                                  0.0,
-                                  0.0,
-                                  new Row(
-
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      new Expanded(
-                                        child:
-                                        new Row(
-                                          children: <Widget>[
-                                            Image.asset(
-                                              'image/burger.png',
-                                              height: 20.0,
-                                              width: 20.0,
-                                            ),
-
-                                            new Padding(
-                                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                                              child: new Text(
-                                                popularFood [index].subItem[extraIndex].foodSubName,
-                                                style: TextStyle(
-                                                    fontFamily: 'customLight',
-
-                                                    fontSize: 14.0,
-                                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
-                                              ),
-                                            ),
+                                    fontSize: 14.0,
+                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
+                              ),
+                            ),
 
 
-                                          ],
-                                        ),
-                                        flex: 0,
-                                      ),
-                                      new Expanded(
-                                        child: new Text(
-                                          "₹ ${popularFood[index].subItem[extraIndex].price}",
-                                          style: new TextStyle(
-                                              fontFamily: "customLight",
-                                              color: ColorValues.YELLOW,
-                                              fontSize: 14),
-                                        ),
-                                        flex: 0,
-                                      ),
-                                      new Expanded(
-                                        child:
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(
-                                              10.0, 5, 5, 0),
-                                          child: new Row(
-                                            children: [
-                                              new InkWell(
+                          ],
+                        ),
+                        flex: 0,
+                      ),
+                      new Expanded(
+                        child: new Text(
+                          "₹ ${popularFood[index].subItem[subItemIndex].price}",
+                          style: new TextStyle(
+                              fontFamily: "customLight",
+                              color: ColorValues.YELLOW,
+                              fontSize: 14),
+                        ),
+                        flex: 0,
+                      ),
+                      new Expanded(
+                        child:
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(
+                              10.0, 10, 5, 0),
+                          child: new Row(
+                            children: [
+                              new InkWell(
 
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .all(15.0),
-                                                  child: new Image.asset(
-                                                    "image/minus.png",
-                                                    width: 15.0,
-                                                    height: 15.0,
-                                                  ),
-                                                ),
-                                                onTap: (){
-                                                  setState(() {
-                                                    if(popularFood [index].subItem[extraIndex].subQuantity==0){
-
-                                                    }else{
-                                                      popularFood [index].subItem[extraIndex].subQuantity--;
-
-                                                    }
-
-                                                  });
-                                                },
-                                              ),
-                                              new Text(
-                                                "${popularFood [index].subItem[extraIndex].subQuantity}",
-                                                style: new TextStyle(
-                                                    fontFamily:
-                                                    "customBold",
-                                                    fontSize: 13),
-                                              ),
-                                              new InkWell(
-                                                onTap: (){
-                                                  setState(() {
-                                                    popularFood [index].subItem[extraIndex].subQuantity++;
-
-                                                  });
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .all(15.0),
-                                                  child: new Image.asset(
-                                                    "image/plus.png",
-                                                    width: 15.0,
-                                                    height: 15.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        flex: 0,
-                                      )
-                                    ],
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .all(15.0),
+                                  child: new Image.asset(
+                                    "image/minus.png",
+                                    width: 15.0,
+                                    height: 15.0,
                                   ),
-
-
                                 ),
+                                onTap: (){
+                                  setState(() {
+                                    if(popularFood [index].subItem[subItemIndex].subQuantity==0){
 
-                              );
-                          },
-                          itemCount: popularFood [index].subItem.length,
-                        )
-                    ),
+                                    }else{
+                                      popularFood [index].subItem[subItemIndex].subQuantity--;
+
+                                    }
+
+                                  });
+                                },
+                              ),
+                              new Text(
+                                "${popularFood [index].subItem[subItemIndex].subQuantity}",
+                                style: new TextStyle(
+                                    fontFamily:
+                                    "customBold",
+                                    fontSize: 13),
+                              ),
+                              new InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    popularFood [index].subItem[subItemIndex].subQuantity++;
+
+                                  });
+                                },
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .all(15.0),
+                                  child: new Image.asset(
+                                    "image/plus.png",
+                                    width: 15.0,
+                                    height: 15.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        flex: 0,
+                      )
+                    ],
                   ),
 
-                ),
-*/
 
-                PaddingWrap.paddingfromLTRB(
+                ),
+              );
+          },
+          itemCount: popularFood [index].subItem.length,
+        )
+    ),
+
+    /*        PaddingWrap.paddingfromLTRB(
                   10.0,
                   0.0,
                   0.0,
@@ -2129,7 +2085,10 @@ new Expanded(
                   ),
 
 
-                ),
+                ),*/
+            ])
+
+),
                 new Container(
                   margin: EdgeInsets.fromLTRB(00.0, 5.0, 0.0, 5.0),
 
@@ -2158,7 +2117,8 @@ new Expanded(
                         ),
                         new Expanded(
                           child: new Text(
-                            "₹ ${(double.tryParse('${popularFood[index].quntity}') * double.tryParse('${sizePrice}'))+(double.tryParse('${popularFood[index].subItem[0].price}')*double.tryParse('${popularFood[index].subItem[0].subQuantity}'))+(double.tryParse('${popularFood[index].subItem[1].price}')*double.tryParse('${popularFood[index].subItem[1].subQuantity}'))}",
+                            "₹ ${(double.tryParse('${popularFood[index].quntity}') * double.tryParse('${sizePrice}'))}",
+                         //   "₹ ${(double.tryParse('${popularFood[index].quntity}') * double.tryParse('${sizePrice}'))+(double.tryParse('${popularFood[index].subItem[0].price}')*double.tryParse('${popularFood[index].subItem[0].subQuantity}'))+(double.tryParse('${popularFood[index].subItem[1].price}')*double.tryParse('${popularFood[index].subItem[1].subQuantity}'))}",
                             style: new TextStyle(
                                 fontFamily: "customRegular",
                                 color: ColorValues.YELLOW,
@@ -2278,7 +2238,7 @@ new Expanded(
                                       DBProvider.db.FinalClient(
                                           '${popularFood[index].id}',
                                           popularFood[index].foodName,
-                                          popularFood[index].size[0].size,
+                                          sizeName,
                                           '${popularFood[index].quntity}',
                                           '${price}',
                                           popularFood[index].discription,

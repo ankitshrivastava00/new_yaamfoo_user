@@ -63,13 +63,7 @@ class ProductDetailsState extends State<ProductDetails> {
           rId=_homeModel.data.restaurant.id;
           category.addAll(_homeModel.data.category);
           food_item.addAll(_homeModel.data.foodItem);
-          setState(() {
-            sizeId= '${food_item[0].size[0].id}';
-            sizeName= food_item[0].size[0].size;
-            sizePrice = '${food_item[0].size[0].price}';
-            food_item[0].size[0].isSelect=true;
 
-          });
           isLoading=false;
 
         });
@@ -855,1098 +849,1071 @@ class ProductDetailsState extends State<ProductDetails> {
                                                       ),
                                                     ),
                                                     onTap: () {
-                                                      showModalBottomSheet(
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-                                                          ),
 
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return StatefulBuilder(
-                                                                builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                                                  return
-                                                                    SingleChildScrollView(child:
+
+                                                      setState(() {
+
+                                                      if(food_item[index].size.length!=0) {
+                                                        sizeId = '${food_item[index].size[0].id}';
+                                                        sizeName = food_item[index].size[0].size;
+                                                        sizePrice = '${food_item[index].size[0].price}';
+
+                                                        for (var i = 0; i < food_item[index]
+                                                            .size.length; i++) {
+                                                          if(i == 0){
+                                                            food_item[index].size[i].isSelect = true;
+
+                                                          }
+                                                          else{
+                                                            food_item[index]
+                                                                .size[i]
+                                                                .isSelect =
+                                                            false;
+                                                          }
+                                                        }
+
+                                                      }else{
+                                                        sizeId = '';
+                                                        sizeName = '';
+                                                        sizePrice = '${food_item[index].price}';
+                                                      }
+                                                    });
+                                                    showModalBottomSheet(
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                                                        ),
+
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return StatefulBuilder(
+                                                              builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                                                return
+                                                                  SingleChildScrollView(child:
+                                                                  Container(
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.only(
+                                                                          topRight: Radius.circular(15.0),
+                                                                          topLeft: Radius.circular(15.0)),
+                                                                      color: Colors.white,
+                                                                    ),
+                                                                    width: MediaQuery
+                                                                        .of(context)
+                                                                        .size
+                                                                        .width,
+                                                                    // color: Colors.white,
+                                                                    child:
+
                                                                     Container(
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.only(
-                                                                            topRight: Radius.circular(15.0),
-                                                                            topLeft: Radius.circular(15.0)),
-                                                                        color: Colors.white,
-                                                                      ),
-                                                                      width: MediaQuery
-                                                                          .of(context)
-                                                                          .size
-                                                                          .width,
-                                                                      // color: Colors.white,
-                                                                      child:
+                                                                      padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+                                                                      //    height: 1200,
+                                                                      child: Column(
+                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        children: [
 
-                                                                      Container(
-                                                                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                                                                        //    height: 1200,
-                                                                        child: Column(
-                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                          children: [
-
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              5.0,
-                                                                              5.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              Padding(
-                                                                                padding:
-                                                                                const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                                                                                child: new Row(
-                                                                                  children: [
-                                                                                    new Expanded(
-                                                                                      child: new Text(
-                                                                                        food_item[index].foodName,
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customRegular",
-                                                                                            color: ColorValues.TEXT_COLOR,
-                                                                                            fontSize: 15),
-                                                                                      ),
-                                                                                      flex: 1,
+                                                                          PaddingWrap.paddingfromLTRB(
+                                                                            5.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                              child: new Row(
+                                                                                children: [
+                                                                                  new Expanded(
+                                                                                    child: new Text(
+                                                                                      food_item[index].foodName,
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customRegular",
+                                                                                          color: ColorValues.TEXT_COLOR,
+                                                                                          fontSize: 15),
                                                                                     ),
-                                                                                    new Expanded(
-                                                                                      child: new Text(
+                                                                                    flex: 1,
+                                                                                  ),
+                                                                                  new Expanded(
+                                                                                    child: new Text(
 
-                                                                                        "₹ ${ food_item[index].price}",
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customRegular",
-                                                                                            color: ColorValues.YELLOW,
-                                                                                            fontSize: 15),
-                                                                                      ),
-                                                                                      flex: 0,
-                                                                                    )
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-
-                                                                            ),
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              5.0,
-                                                                              5.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              Padding(
-                                                                                padding:
-                                                                                const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                                                                                child: new Row(
-                                                                                  children: [
-                                                                                    new Expanded(
-                                                                                      child: new Text(
-                                                                                        food_item[index].foodName,
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customLight",
-                                                                                            color: ColorValues.TEXT_COLOR,
-                                                                                            fontSize: 14),
-                                                                                      ),
-                                                                                      flex: 1,
+                                                                                      "₹ ${ food_item[index].price}",
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customRegular",
+                                                                                          color: ColorValues.YELLOW,
+                                                                                          fontSize: 15),
                                                                                     ),
-                                                                                    new Expanded(
-                                                                                      child: new Text(
-                                                                                        "",
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customLight",
-                                                                                            color: ColorValues.TEXT_COLOR,
-                                                                                            fontSize: 14),
-                                                                                      ),
-                                                                                      flex: 0,
-                                                                                    )
-                                                                                  ],
-                                                                                ),
+                                                                                    flex: 0,
+                                                                                  )
+                                                                                ],
                                                                               ),
-
                                                                             ),
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              5.0,
-                                                                              5.0,
-                                                                              0.0,
-                                                                              5.0,
-                                                                              Padding(
-                                                                                padding:
-                                                                                const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                                                                                child:
-                                                                                new Row(
 
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-                                                                                    new Expanded(
-                                                                                      child:
-                                                                                      new Row(
-                                                                                        children: <Widget>[
-                                                                                          Image.asset(
-                                                                                            'image/start.png',
+                                                                          ),
+                                                                          PaddingWrap.paddingfromLTRB(
+                                                                            5.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                              child: new Row(
+                                                                                children: [
+                                                                                  new Expanded(
+                                                                                    child: new Text(
+                                                                                      food_item[index].foodName,
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customLight",
+                                                                                          color: ColorValues.TEXT_COLOR,
+                                                                                          fontSize: 14),
+                                                                                    ),
+                                                                                    flex: 1,
+                                                                                  ),
+                                                                                  new Expanded(
+                                                                                    child: new Text(
+                                                                                      "",
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customLight",
+                                                                                          color: ColorValues.TEXT_COLOR,
+                                                                                          fontSize: 14),
+                                                                                    ),
+                                                                                    flex: 0,
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+
+                                                                          ),
+                                                                          PaddingWrap.paddingfromLTRB(
+                                                                            5.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            5.0,
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                              child:
+                                                                              new Row(
+
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  new Expanded(
+                                                                                    child:
+                                                                                    new Row(
+                                                                                      children: <Widget>[
+                                                                                        Image.asset(
+                                                                                          'image/start.png',
+                                                                                          height: 13.0,
+                                                                                          width: 13.0,
+                                                                                        ),
+
+                                                                                        new Padding(
+                                                                                          padding: EdgeInsets.fromLTRB(
+                                                                                              3.0, 0.0, 0.0, 0.0),
+                                                                                          child: new Text(
+                                                                                            "4.9 (105)",
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'customLight',
+                                                                                                fontSize: 14.0,
+                                                                                                color: ColorValues.TEXT_COLOR),
+                                                                                          ),
+                                                                                        ),
+
+
+                                                                                      ],
+                                                                                    ),
+                                                                                    flex: 0,
+                                                                                  ),
+                                                                                  new Expanded(
+                                                                                    child:
+                                                                                    new Row(
+                                                                                      children: <Widget>[
+                                                                                        Image.asset(
+                                                                                            'image/clock.png',
                                                                                             height: 13.0,
                                                                                             width: 13.0,
-                                                                                          ),
+                                                                                            color: ColorValues.TEXT_COLOR
+                                                                                        ),
 
-                                                                                          new Padding(
-                                                                                            padding: EdgeInsets.fromLTRB(
-                                                                                                3.0, 0.0, 0.0, 0.0),
-                                                                                            child: new Text(
-                                                                                              "4.9 (105)",
-                                                                                              style: TextStyle(
-                                                                                                  fontFamily: 'customLight',
-                                                                                                  fontSize: 14.0,
-                                                                                                  color: ColorValues.TEXT_COLOR),
-                                                                                            ),
-                                                                                          ),
-
-
-                                                                                        ],
-                                                                                      ),
-                                                                                      flex: 0,
-                                                                                    ),
-                                                                                    new Expanded(
-                                                                                      child:
-                                                                                      new Row(
-                                                                                        children: <Widget>[
-                                                                                          Image.asset(
-                                                                                              'image/clock.png',
-                                                                                              height: 13.0,
-                                                                                              width: 13.0,
-                                                                                              color: ColorValues.TEXT_COLOR
-                                                                                          ),
-
-                                                                                          new Padding(
-                                                                                            padding: EdgeInsets.fromLTRB(
-                                                                                                2.0, 0.0, 0.0, 0.0),
-                                                                                            child: new Text(
-                                                                                              "30 MIN",
-                                                                                              style: TextStyle(
-                                                                                                  fontFamily: 'customLight',
-                                                                                                  fontSize: 14.0,
-                                                                                                  color: ColorValues.TEXT_COLOR),
-                                                                                            ),
-                                                                                          ),
-
-
-                                                                                        ],
-                                                                                      ),
-                                                                                      flex: 0,
-                                                                                    ),
-
-                                                                                    new Expanded(
-                                                                                      child: new Text(
-                                                                                        "Free Delivery",
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customLight",
-                                                                                            color: ColorValues.CALL_COLOR,
-                                                                                            fontSize: 14),
-                                                                                      ),
-                                                                                      flex: 0,
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-
-                                                                            ),
-                                                                            new Container(
-                                                                              margin: EdgeInsets.fromLTRB(00.0, 5.0, 0.0, 5.0),
-
-                                                                              height: 0.5,
-                                                                              color: ColorValues.TIME_NOTITFICAITON,
-                                                                            ),
-                                                                            new Padding(
-                                                                              padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
-                                                                              child: new Text(
-                                                                                "Size",
-                                                                                style: TextStyle(
-                                                                                    fontFamily: 'customLight',
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 14.0,
-                                                                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
-                                                                              ),
-                                                                            ),
-
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              5.0,
-                                                                              5.0,
-                                                                              0.0,
-                                                                              5.0,
-                                                                              Padding(
-                                                                                padding:
-                                                                                const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                                                                                child:
-                                                                                new Row(
-
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-
-                                                                                    new Expanded(
-                                                                                      child:
-                                                                                      InkWell(child:
-                                                                                      Container(
-
-                                                                                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                                                                                        width: 100.0,
-                                                                                        height: 40.0,
-
-
-                                                                                        child: Card(
-
-                                                                                          elevation: 5.0,
-                                                                                          color:food_item[index].size[0].isSelect?ColorValues.TEXT_COLOR:Colors.white,
-                                                                                          shape: RoundedRectangleBorder(
-
-                                                                                            borderRadius: BorderRadius.circular(2),
-                                                                                          ),
-                                                                                          child:  Container(
-
-                                                                                            margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                                                                            width: 100.0,
-                                                                                            height: 40.0,
-                                                                                            alignment: Alignment.center,
-
-
-                                                                                            child: Text(
-                                                                                              "${food_item[index].size[0].size}",
-                                                                                              textAlign: TextAlign.center,
-                                                                                              style: TextStyle(
-
-                                                                                                color:food_item[index].size[0].isSelect?Colors.white:ColorValues.TEXT_COLOR,
-                                                                                                fontFamily: "customLight",
-                                                                                                fontSize: 13.0,
-                                                                                              ),
-                                                                                            ),
+                                                                                        new Padding(
+                                                                                          padding: EdgeInsets.fromLTRB(
+                                                                                              2.0, 0.0, 0.0, 0.0),
+                                                                                          child: new Text(
+                                                                                            "30 MIN",
+                                                                                            style: TextStyle(
+                                                                                                fontFamily: 'customLight',
+                                                                                                fontSize: 14.0,
+                                                                                                color: ColorValues.TEXT_COLOR),
                                                                                           ),
                                                                                         ),
-                                                                                      ),
 
-                                                                                        onTap: (){
-                                                                                          setState(() {
-                                                                                            sizeId= '${food_item[index].size[0].id}';
-                                                                                            sizeName= food_item[index].size[0].size;
-                                                                                            sizePrice = '${food_item[index].size[0].price}';
-                                                                                            food_item[index].size[0].isSelect=true;
-                                                                                            food_item[index].size[1].isSelect=false;
 
-                                                                                          });
-
-                                                                                        },
-                                                                                      ), flex: 0,
+                                                                                      ],
                                                                                     ),
-                                                                                    new Expanded(
-                                                                                      child:
-                                                                                      InkWell(child:
-                                                                                      Container(
-
-                                                                                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                                                                                        width: 100.0,
-                                                                                        height: 40.0,
-
-
-                                                                                        child: Card(
-
-                                                                                          elevation: 5.0,
-                                                                                          color:food_item[index].size[1].isSelect?ColorValues.TEXT_COLOR:Colors.white,
-                                                                                          shape: RoundedRectangleBorder(
-
-                                                                                            borderRadius: BorderRadius.circular(2),
-                                                                                          ),
-                                                                                          child:  Container(
-
-                                                                                            margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                                                                            width: 100.0,
-                                                                                            height: 40.0,
-                                                                                            alignment: Alignment.center,
-
-
-                                                                                            child: Text(
-                                                                                              "${food_item[index].size[1].size}",
-                                                                                              textAlign: TextAlign.center,
-                                                                                              style: TextStyle(
-
-                                                                                                color:food_item[index].size[1].isSelect?Colors.white:ColorValues.TEXT_COLOR,
-                                                                                                fontFamily: "customLight",
-                                                                                                fontSize: 13.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-
-                                                                                        onTap: (){
-                                                                                          setState(() {
-                                                                                            sizeId= '${food_item[index].size[1].id}';
-                                                                                            sizeName= food_item[index].size[1].size;
-                                                                                            sizePrice = '${food_item[index].size[1].price}';
-
-                                                                                            food_item[index].size[1].isSelect=true;
-                                                                                            food_item[index].size[0].isSelect=false;
-
-                                                                                          });
-
-                                                                                        },
-                                                                                      ), flex: 0,
-                                                                                    ),
-
-
-
-/*
-                                                                              new Expanded(
-                                                                                child:
-                                                                                Container(
-
-                                                                                  margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                                                                                  width: 100.0,
-                                                                                  height: 40.0,
-
-
-                                                                                  child: Card(
-
-                                                                                    elevation: 5.0,
-                                                                                    color:Colors.white,
-                                                                                    shape: RoundedRectangleBorder(
-
-                                                                                      borderRadius: BorderRadius.circular(2),
-                                                                                    ),
-                                                                                    child:  Container(
-
-                                                                                      margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                                                                      width: 100.0,
-                                                                                      height: 40.0,
-                                                                                      alignment: Alignment.center,
-
-
-                                                                                      child: Text('Large',
-                                                                                        textAlign: TextAlign.center,
-                                                                                        style: TextStyle(
-
-                                                                                          color:ColorValues.TEXT_COLOR,
-                                                                                          fontFamily: "customLight",
-                                                                                          fontSize: 13.0,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
+                                                                                    flex: 0,
                                                                                   ),
-                                                                                ),
-                                                                                flex: 0,
-                                                                              ),
-*/
-                                                                                  ],
-                                                                                ),
-                                                                              ),
 
+                                                                                  new Expanded(
+                                                                                    child: new Text(
+                                                                                      "Free Delivery",
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customLight",
+                                                                                          color: ColorValues.CALL_COLOR,
+                                                                                          fontSize: 14),
+                                                                                    ),
+                                                                                    flex: 0,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
                                                                             ),
 
-/*
+                                                                          ),
+                                                                          food_item[index].size.length==0?new Center():  new Container(
+                                                                            margin: EdgeInsets.fromLTRB(00.0, 5.0, 0.0, 5.0),
 
-                PaddingWrap.paddingfromLTRB(
-                  5.0,
-                  5.0,
-                  0.0,
-                  5.0,
-                  Padding(
-                    padding:
-                    const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                            height: 0.5,
+                                                                            color: ColorValues.TIME_NOTITFICAITON,
+                                                                          ),
+                                                                          food_item[index].size.length==0?new Center():     new Padding(
+                                                                            padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+                                                                            child: new Text(
+                                                                              "Size",
+                                                                              style: TextStyle(
+                                                                                  fontFamily: 'customLight',
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                  fontSize: 14.0,
+                                                                                  color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
+                                                                            ),
+                                                                          ),
+
+                                                                          food_item[index].size.length==0?new Center():PaddingWrap.paddingfromLTRB(
+                                                                            5.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            5.0,
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                              child:
+                                                                              Container(
+
+                                                                                  height: 40.0,
+                                                                                  margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                                                                                  child: ListView.builder(
+                                                                                    scrollDirection: Axis.horizontal,
+                                                                                    itemBuilder: (BuildContext context, int sizeIndex) {
+                                                                                      return
+                                                                                        GestureDetector(
+                                                                                            onTap: () {
+                                                                                              /*  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ProductDetails()));*/
+                                                                                            },
+                                                                                            child:
+
+                                                                                            InkWell(child:
+                                                                                            Container(
+
+                                                                                              margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                                                                                              width: 100.0,
+                                                                                              height: 40.0,
+
+
+                                                                                              child: Card(
+
+                                                                                                elevation: 5.0,
+                                                                                                color:food_item[index].size[sizeIndex].isSelect?ColorValues.TEXT_COLOR:Colors.white,
+                                                                                                shape: RoundedRectangleBorder(
+
+                                                                                                  borderRadius: BorderRadius.circular(2),
+                                                                                                ),
+                                                                                                child:  Container(
+
+                                                                                                  margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                                                                                  width: 100.0,
+                                                                                                  height: 40.0,
+                                                                                                  alignment: Alignment.center,
+
+
+                                                                                                  child: Text(
+                                                                                                    "${food_item[index].size[sizeIndex].size}",
+                                                                                                    textAlign: TextAlign.center,
+                                                                                                    style: TextStyle(
+
+                                                                                                      color:food_item[index].size[sizeIndex].isSelect?Colors.white:ColorValues.TEXT_COLOR,
+                                                                                                      fontFamily: "customLight",
+                                                                                                      fontSize: 13.0,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+
+                                                                                                onTap: (){
+                                                                                                  setState(() {
+                                                                                                    sizeId= '${food_item[index].size[sizeIndex].id}';
+                                                                                                    sizeName= food_item[index].size[sizeIndex].size;
+                                                                                                    sizePrice = '${food_item[index].size[sizeIndex].price}';
+                                                                                                    for (var i = 0; i < food_item[index]
+                                                                                                        .size.length; i++) {
+                                                                                                      if(i == sizeIndex){
+                                                                                                      food_item[index]
+                                                                                                          .size[i]
+                                                                                                          .isSelect =
+                                                                                                      true;
+                                                                                                    }
+                                                                                                    else{
+                                                                                                        food_item[index]
+                                                                                                            .size[i]
+                                                                                                            .isSelect =
+                                                                                                        false;
+                                                                                                      }
+                                                                                                    }
+                                                                                                    //  food_item[index].size[sizeIndex].isSelect=false;
+
+                                                                                                  });                          })
+                                                                                        );
+                                                                                    },
+                                                                                    itemCount: food_item[index].size.length,
+                                                                                  )
+                                                                              ),
+
+
+/*
+                    new Row(
+
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
+new Expanded(
                     child:
+                    InkWell(child:
                     Container(
 
+                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                    width: 100.0,
+                    height: 40.0,
+
+
+                    child: Card(
+
+                      elevation: 5.0,
+                      color:food_item[index].size[0].isSelect?ColorValues.TEXT_COLOR:Colors.white,
+                      shape: RoundedRectangleBorder(
+
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                      child:  Container(
+
+                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        width: 100.0,
                         height: 40.0,
-                        margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-
-                          itemBuilder: (BuildContext context, int subIndex) {
-                            return
-                              GestureDetector(
-                                onTap: () {
-    for (var i = 0; i < food_item[index].size.length; i++) {
-
-                                    if(subIndex==i){
+                        alignment: Alignment.center,
 
 
-                                      setState(() {
-                                        sizeId= '${food_item[index].size[subIndex].id}';
-                                        sizeName= food_item[index].size[subIndex].size;
-                                        food_item[index].size[subIndex].isSelect=true;
+                        child: Text(
+                          "${food_item[index].size[0].size}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
 
-                                      });
+                            color:food_item[index].size[0].isSelect?Colors.white:ColorValues.TEXT_COLOR,
+                            fontFamily: "customLight",
+                            fontSize: 13.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+              onTap: (){
+  setState(() {
+    sizeId= '${food_item[index].size[0].id}';
+    sizeName= food_item[index].size[0].size;
+    sizePrice = '${food_item[index].size[0].price}';
+    food_item[index].size[0].isSelect=true;
+    food_item[index].size[1].isSelect=false;
+
+  });
+
+},
+), flex: 0,
+),
+                        new Expanded(
+                          child:
+                          InkWell(child:
+                          Container(
+
+                            margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                            width: 100.0,
+                            height: 40.0,
+
+
+                            child: Card(
+
+                              elevation: 5.0,
+                              color:food_item[index].size[1].isSelect?ColorValues.TEXT_COLOR:Colors.white,
+                              shape: RoundedRectangleBorder(
+
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                              child:  Container(
+
+                                margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                width: 100.0,
+                                height: 40.0,
+                                alignment: Alignment.center,
+
+
+                                child: Text(
+                                  "${food_item[index].size[1].size}",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+
+                                    color:food_item[index].size[1].isSelect?Colors.white:ColorValues.TEXT_COLOR,
+                                    fontFamily: "customLight",
+                                    fontSize: 13.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                            onTap: (){
+                              setState(() {
+                                sizeId= '${food_item[index].size[1].id}';
+                                sizeName= food_item[index].size[1].size;
+                                sizePrice = '${food_item[index].size[1].price}';
+
+                                food_item[index].size[1].isSelect=true;
+                                food_item[index].size[0].isSelect=false;
+
+                              });
+
+                            },
+                          ), flex: 0,
+                        ),
+
+
+
+                      ],
+                    ),
+*/
+                                                                            ),
+
+                                                                          ),
+
+
+                                                                          food_item[index].subItem.length==0?new Center():new Container(
+                                                                              child: new Column(
+                                                                                  crossAxisAlignment:
+                                                                                  CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    new Padding(
+                                                                                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+                                                                                      child: new Text(
+                                                                                        "Extra",
+                                                                                        textAlign: TextAlign.left,
+                                                                                        style: TextStyle(
+                                                                                            fontFamily: 'customLight',
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontSize: 14.0,
+
+                                                                                            color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Container(
+
+                                                                                        height: 100.0,
+                                                                                        margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                                                                                        child: ListView.builder(
+                                                                                          scrollDirection: Axis.vertical,
+                                                                                          itemBuilder: (BuildContext context, int subItemIndex) {
+                                                                                            return
+                                                                                              GestureDetector(
+                                                                                                onTap: () {
+                                                                                                  /*  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ProductDetails()));*/
+                                                                                                },
+                                                                                                child:
+
+                                                                                                PaddingWrap.paddingfromLTRB(
+                                                                                                  10.0,
+                                                                                                  0.0,
+                                                                                                  0.0,
+                                                                                                  0.0,
+                                                                                                  new Row(
+
+                                                                                                    mainAxisSize: MainAxisSize.max,
+                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                    children: [
+                                                                                                      new Expanded(
+                                                                                                        child:
+                                                                                                        new Row(
+                                                                                                          children: <Widget>[
+                                                                                                            Image.asset(
+                                                                                                              'image/burger.png',
+                                                                                                              height: 20.0,
+                                                                                                              width: 20.0,
+                                                                                                            ),
+
+                                                                                                            new Padding(
+                                                                                                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                                                                                                              child: new Text(
+                                                                                                                food_item[index].subItem[subItemIndex].foodSubName,
+                                                                                                                style: TextStyle(
+                                                                                                                    fontFamily: 'customLight',
+
+                                                                                                                    fontSize: 14.0,
+                                                                                                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
+                                                                                                              ),
+                                                                                                            ),
+
+
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                        flex: 0,
+                                                                                                      ),
+                                                                                                      new Expanded(
+                                                                                                        child: new Text(
+                                                                                                          "₹ ${food_item[index].subItem[subItemIndex].price}",
+                                                                                                          style: new TextStyle(
+                                                                                                              fontFamily: "customLight",
+                                                                                                              color: ColorValues.YELLOW,
+                                                                                                              fontSize: 14),
+                                                                                                        ),
+                                                                                                        flex: 0,
+                                                                                                      ),
+                                                                                                      new Expanded(
+                                                                                                        child:
+                                                                                                        Padding(
+                                                                                                          padding:
+                                                                                                          const EdgeInsets.fromLTRB(
+                                                                                                              10.0, 10, 5, 0),
+                                                                                                          child: new Row(
+                                                                                                            children: [
+                                                                                                              new InkWell(
+
+                                                                                                                child: Padding(
+                                                                                                                  padding:
+                                                                                                                  const EdgeInsets
+                                                                                                                      .all(15.0),
+                                                                                                                  child: new Image.asset(
+                                                                                                                    "image/minus.png",
+                                                                                                                    width: 15.0,
+                                                                                                                    height: 15.0,
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                onTap: (){
+                                                                                                                  setState(() {
+                                                                                                                    if(food_item [index].subItem[subItemIndex].subQuantity==0){
+
+                                                                                                                    }else{
+                                                                                                                      food_item [index].subItem[subItemIndex].subQuantity--;
+
+                                                                                                                    }
+
+                                                                                                                  });
+                                                                                                                },
+                                                                                                              ),
+                                                                                                              new Text(
+                                                                                                                "${food_item [index].subItem[subItemIndex].subQuantity}",
+                                                                                                                style: new TextStyle(
+                                                                                                                    fontFamily:
+                                                                                                                    "customBold",
+                                                                                                                    fontSize: 13),
+                                                                                                              ),
+                                                                                                              new InkWell(
+                                                                                                                onTap: (){
+                                                                                                                  setState(() {
+                                                                                                                    food_item [index].subItem[subItemIndex].subQuantity++;
+
+                                                                                                                  });
+                                                                                                                },
+                                                                                                                child: Padding(
+                                                                                                                  padding:
+                                                                                                                  const EdgeInsets
+                                                                                                                      .all(15.0),
+                                                                                                                  child: new Image.asset(
+                                                                                                                    "image/plus.png",
+                                                                                                                    width: 15.0,
+                                                                                                                    height: 15.0,
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+
+                                                                                                        flex: 0,
+                                                                                                      )
+                                                                                                    ],
+                                                                                                  ),
+
+
+                                                                                                ),
+                                                                                              );
+                                                                                          },
+                                                                                          itemCount: food_item [index].subItem.length,
+                                                                                        )
+                                                                                    ),
+
+                                                                                    /*        PaddingWrap.paddingfromLTRB(
+                  10.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  new Row(
+
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      new Expanded(
+                        child:
+                        new Row(
+                          children: <Widget>[
+                            Image.asset(
+                              'image/burger.png',
+                              height: 20.0,
+                              width: 20.0,
+                            ),
+
+                            new Padding(
+                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                              child: new Text(
+                                food_item[index].subItem[0].foodSubName,
+                                style: TextStyle(
+                                    fontFamily: 'customLight',
+
+                                    fontSize: 14.0,
+                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
+                              ),
+                            ),
+
+
+                          ],
+                        ),
+                        flex: 0,
+                      ),
+                      new Expanded(
+                        child: new Text(
+                          "₹ ${food_item[index].subItem[0].price}",
+                          style: new TextStyle(
+                              fontFamily: "customLight",
+                              color: ColorValues.YELLOW,
+                              fontSize: 14),
+                        ),
+                        flex: 0,
+                      ),
+                      new Expanded(
+                        child:
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(
+                              10.0, 10, 5, 0),
+                          child: new Row(
+                            children: [
+                              new InkWell(
+
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .all(15.0),
+                                  child: new Image.asset(
+                                    "image/minus.png",
+                                    width: 15.0,
+                                    height: 15.0,
+                                  ),
+                                ),
+                                onTap: (){
+                                  setState(() {
+                                    if(food_item [index].subItem[0].subQuantity==0){
 
                                     }else{
-                                      setState(() {
-                                        food_item[index].size[subIndex].isSelect=false;
-
-
-                                      });
+                                      food_item [index].subItem[0].subQuantity--;
 
                                     }
-                                  }
 
+                                  });
                                 },
-                                child:
+                              ),
+                              new Text(
+                                "${food_item [index].subItem[0].subQuantity}",
+                                style: new TextStyle(
+                                    fontFamily:
+                                    "customBold",
+                                    fontSize: 13),
+                              ),
+                              new InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    food_item [index].subItem[0].subQuantity++;
 
-                                new Expanded(
-                                  child:
-                                  Container(
-
-                                    margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                                    width: 100.0,
-                                    height: 40.0,
-
-
-                                    child: Card(
-
-                                      elevation: 5.0,
-                                      color:  food_item[index].size[subIndex].isSelect? ColorValues.TEXT_COLOR:Colors.white,
-                                      shape: RoundedRectangleBorder(
-
-                                        borderRadius: BorderRadius.circular(2),
-                                      ),
-                                      child: Container(
-
-                                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                        width: 100.0,
-                                        height: 40.0,
-                                        alignment: Alignment.center,
-
-
-                                        child: Text(
-                                          "${food_item[index].size[subIndex].size}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-
-                                            color:  !food_item[index].size[subIndex].isSelect? ColorValues.TEXT_COLOR:Colors.white,
-                                            fontFamily: "customLight",
-                                            fontSize: 13.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  });
+                                },
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .all(15.0),
+                                  child: new Image.asset(
+                                    "image/plus.png",
+                                    width: 15.0,
+                                    height: 15.0,
                                   ),
-                                 // flex: 0,
                                 ),
+                              ),
+                            ],
+                          ),
+                        ),
 
-                              );
-                          },
-                          itemCount: food_item[index].size.length,
-                        )
-                    ),
+                        flex: 0,
+                      )
+                    ],
                   ),
 
+
                 ),
-*/
-
-
-                                                                            new Padding(
-                                                                              padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
-                                                                              child: new Text(
-                                                                                "Extra",
-                                                                                textAlign: TextAlign.left,
-                                                                                style: TextStyle(
-                                                                                    fontFamily: 'customLight',
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 14.0,
-
-                                                                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
-                                                                              ),
-                                                                            ),
-
-/*
                 PaddingWrap.paddingfromLTRB(
-                  5.0,
-                  5.0,
+                  10.0,
                   0.0,
-                  5.0,
-                  Padding(
-                    padding:
-                    const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                    child:
-                    Container(
+                  0.0,
+                  0.0,
+                  new Row(
 
-                        height: 100.0,
-                        margin: EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 0.0),
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      new Expanded(
+                        child:
+                        new Row(
+                          children: <Widget>[
+                            Image.asset(
+                              'image/burger.png',
+                              height: 20.0,
+                              width: 20.0,
+                            ),
 
-                          itemBuilder: (BuildContext context, int extraIndex) {
+                            new Padding(
+                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                              child: new Text(
+                                food_item[index].subItem[1].foodSubName,
+                                style: TextStyle(
+                                    fontFamily: 'customLight',
 
-                            return
-                              GestureDetector(
-
-                                child:
-
-                                PaddingWrap.paddingfromLTRB(
-                                  0.0,
-                                  0.0,
-                                  0.0,
-                                  0.0,
-                                  new Row(
-
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      new Expanded(
-                                        child:
-                                        new Row(
-                                          children: <Widget>[
-                                            Image.asset(
-                                              'image/burger.png',
-                                              height: 20.0,
-                                              width: 20.0,
-                                            ),
-
-                                            new Padding(
-                                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                                              child: new Text(
-                                                food_item [index].subItem[extraIndex].foodSubName,
-                                                style: TextStyle(
-                                                    fontFamily: 'customLight',
-
-                                                    fontSize: 14.0,
-                                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
-                                              ),
-                                            ),
+                                    fontSize: 14.0,
+                                    color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
+                              ),
+                            ),
 
 
-                                          ],
-                                        ),
-                                        flex: 0,
-                                      ),
-                                      new Expanded(
-                                        child: new Text(
-                                          "\$ ${food_item[index].subItem[extraIndex].price}",
-                                          style: new TextStyle(
-                                              fontFamily: "customLight",
-                                              color: ColorValues.YELLOW,
-                                              fontSize: 14),
-                                        ),
-                                        flex: 0,
-                                      ),
-                                      new Expanded(
-                                        child:
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(
-                                              10.0, 5, 5, 0),
-                                          child: new Row(
-                                            children: [
-                                              new InkWell(
+                          ],
+                        ),
+                        flex: 0,
+                      ),
+                      new Expanded(
+                        child: new Text(
+                          "₹ ${food_item[index].subItem[1].price}",
+                          style: new TextStyle(
+                              fontFamily: "customLight",
+                              color: ColorValues.YELLOW,
+                              fontSize: 14),
+                        ),
+                        flex: 0,
+                      ),
+                      new Expanded(
+                        child:
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(
+                              10.0, 0, 5, 10),
+                          child: new Row(
+                            children: [
+                              new InkWell(
 
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .all(15.0),
-                                                  child: new Image.asset(
-                                                    "image/minus.png",
-                                                    width: 15.0,
-                                                    height: 15.0,
-                                                  ),
-                                                ),
-                                                onTap: (){
-                                                  setState(() {
-                                                    if(food_item [index].subItem[extraIndex].subQuantity==0){
-
-                                                    }else{
-                                                      food_item [index].subItem[extraIndex].subQuantity--;
-
-                                                    }
-
-                                                  });
-                                                },
-                                              ),
-                                              new Text(
-                                                "${food_item [index].subItem[extraIndex].subQuantity}",
-                                                style: new TextStyle(
-                                                    fontFamily:
-                                                    "customBold",
-                                                    fontSize: 13),
-                                              ),
-                                              new InkWell(
-                                                onTap: (){
-                                                  setState(() {
-                                                    food_item [index].subItem[extraIndex].subQuantity++;
-
-                                                  });
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .all(15.0),
-                                                  child: new Image.asset(
-                                                    "image/plus.png",
-                                                    width: 15.0,
-                                                    height: 15.0,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        flex: 0,
-                                      )
-                                    ],
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .all(15.0),
+                                  child: new Image.asset(
+                                    "image/minus.png",
+                                    width: 15.0,
+                                    height: 15.0,
                                   ),
-
-
                                 ),
+                                onTap: (){
+                                  setState(() {
+                                    if(food_item [index].subItem[1].subQuantity==0){
 
-                              );
-                          },
-                          itemCount: food_item [index].subItem.length,
-                        )
-                    ),
+                                    }else{
+                                      food_item [index].subItem[1].subQuantity--;
+
+                                    }
+
+                                  });
+                                },
+                              ),
+                              new Text(
+                                "${food_item [index].subItem[1].subQuantity}",
+                                style: new TextStyle(
+                                    fontFamily:
+                                    "customBold",
+                                    fontSize: 13),
+                              ),
+                              new InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    food_item [index].subItem[1].subQuantity++;
+
+                                  });
+                                },
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .all(15.0),
+                                  child: new Image.asset(
+                                    "image/plus.png",
+                                    width: 15.0,
+                                    height: 15.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        flex: 0,
+                      )
+                    ],
                   ),
 
-                ),
-*/
 
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              10.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              new Row(
+                ),*/
+                                                                                  ])
+
+                                                                          ),
+                                                                          new Container(
+                                                                            margin: EdgeInsets.fromLTRB(00.0, 5.0, 0.0, 5.0),
+
+                                                                            height: 0.5,
+                                                                            color: ColorValues.TIME_NOTITFICAITON,
+                                                                          ),
+                                                                          PaddingWrap.paddingfromLTRB(
+                                                                            5.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                              child: new Row(
+                                                                                children: [
+                                                                                  new Expanded(
+                                                                                    child: new Text(
+                                                                                      "Total",
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customRegular",
+                                                                                          color: ColorValues.TEXT_COLOR,
+                                                                                          fontSize: 15),
+                                                                                    ),
+                                                                                    flex: 1,
+                                                                                  ),
+                                                                                  new Expanded(
+                                                                                    child: new Text(
+                                                                                      "₹ ${(double.tryParse('${food_item[index].quntity}') * double.tryParse('${sizePrice}'))}",
+                                                                                      //   "₹ ${(double.tryParse('${food_item[index].quntity}') * double.tryParse('${sizePrice}'))+(double.tryParse('${food_item[index].subItem[0].price}')*double.tryParse('${food_item[index].subItem[0].subQuantity}'))+(double.tryParse('${food_item[index].subItem[1].price}')*double.tryParse('${food_item[index].subItem[1].subQuantity}'))}",
+                                                                                      style: new TextStyle(
+                                                                                          fontFamily: "customRegular",
+                                                                                          color: ColorValues.YELLOW,
+                                                                                          fontSize: 15),
+                                                                                    ),
+                                                                                    flex: 0,
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+
+                                                                          ),
+
+                                                                          PaddingWrap.paddingfromLTRB(
+                                                                            5.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
+                                                                              child: new Row(
 
                                                                                 mainAxisSize: MainAxisSize.max,
                                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                 children: [
                                                                                   new Expanded(
                                                                                     child:
-                                                                                    new Row(
-                                                                                      children: <Widget>[
-                                                                                        Image.asset(
-                                                                                          'image/burger.png',
-                                                                                          height: 20.0,
-                                                                                          width: 20.0,
-                                                                                        ),
-
-                                                                                        new Padding(
-                                                                                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                                                                                          child: new Text(
-                                                                                            food_item[index].subItem[0].foodSubName,
-                                                                                            style: TextStyle(
-                                                                                                fontFamily: 'customLight',
-
-                                                                                                fontSize: 14.0,
-                                                                                                color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
-                                                                                          ),
-                                                                                        ),
-
-
-                                                                                      ],
-                                                                                    ),
-                                                                                    flex: 0,
-                                                                                  ),
-                                                                                  new Expanded(
-                                                                                    child: new Text(
-                                                                                      "₹ ${food_item[index].subItem[0].price}",
-                                                                                      style: new TextStyle(
-                                                                                          fontFamily: "customLight",
-                                                                                          color: ColorValues.YELLOW,
-                                                                                          fontSize: 14),
-                                                                                    ),
-                                                                                    flex: 0,
-                                                                                  ),
-                                                                                  new Expanded(
-                                                                                    child:
                                                                                     Padding(
                                                                                       padding:
                                                                                       const EdgeInsets.fromLTRB(
-                                                                                          10.0, 10, 5, 0),
+                                                                                          10.0, 10, 5, 10),
                                                                                       child: new Row(
                                                                                         children: [
                                                                                           new InkWell(
-
-                                                                                            child: Padding(
-                                                                                              padding:
-                                                                                              const EdgeInsets
-                                                                                                  .all(15.0),
-                                                                                              child: new Image.asset(
-                                                                                                "image/minus.png",
-                                                                                                width: 15.0,
-                                                                                                height: 15.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                            onTap: (){
-                                                                                              setState(() {
-                                                                                                if(food_item [index].subItem[0].subQuantity==0){
-
-                                                                                                }else{
-                                                                                                  food_item [index].subItem[0].subQuantity--;
-
-                                                                                                }
-
-                                                                                              });
-                                                                                            },
-                                                                                          ),
-                                                                                          new Text(
-                                                                                            "${food_item [index].subItem[0].subQuantity}",
-                                                                                            style: new TextStyle(
-                                                                                                fontFamily:
-                                                                                                "customBold",
-                                                                                                fontSize: 13),
-                                                                                          ),
-                                                                                          new InkWell(
-                                                                                            onTap: (){
-                                                                                              setState(() {
-                                                                                                food_item [index].subItem[0].subQuantity++;
-
-                                                                                              });
-                                                                                            },
-                                                                                            child: Padding(
-                                                                                              padding:
-                                                                                              const EdgeInsets
-                                                                                                  .all(15.0),
-                                                                                              child: new Image.asset(
-                                                                                                "image/plus.png",
-                                                                                                width: 15.0,
-                                                                                                height: 15.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-
-                                                                                    flex: 0,
-                                                                                  )
-                                                                                ],
-                                                                              ),
-
-
-                                                                            ),
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              10.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              new Row(
-
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                children: [
-                                                                                  new Expanded(
-                                                                                    child:
-                                                                                    new Row(
-                                                                                      children: <Widget>[
-                                                                                        Image.asset(
-                                                                                          'image/burger.png',
-                                                                                          height: 20.0,
-                                                                                          width: 20.0,
-                                                                                        ),
-
-                                                                                        new Padding(
-                                                                                          padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                                                                                          child: new Text(
-                                                                                            food_item[index].subItem[1].foodSubName,
-                                                                                            style: TextStyle(
-                                                                                                fontFamily: 'customLight',
-
-                                                                                                fontSize: 14.0,
-                                                                                                color: Color(ColorValues.HEADING_COLOR_EDUCATION)),
-                                                                                          ),
-                                                                                        ),
-
-
-                                                                                      ],
-                                                                                    ),
-                                                                                    flex: 0,
-                                                                                  ),
-                                                                                  new Expanded(
-                                                                                    child: new Text(
-                                                                                      "₹ ${food_item[index].subItem[1].price}",
-                                                                                      style: new TextStyle(
-                                                                                          fontFamily: "customLight",
-                                                                                          color: ColorValues.YELLOW,
-                                                                                          fontSize: 14),
-                                                                                    ),
-                                                                                    flex: 0,
-                                                                                  ),
-                                                                                  new Expanded(
-                                                                                    child:
-                                                                                    Padding(
-                                                                                      padding:
-                                                                                      const EdgeInsets.fromLTRB(
-                                                                                          10.0, 0, 5, 10),
-                                                                                      child: new Row(
-                                                                                        children: [
-                                                                                          new InkWell(
-
-                                                                                            child: Padding(
-                                                                                              padding:
-                                                                                              const EdgeInsets
-                                                                                                  .all(15.0),
-                                                                                              child: new Image.asset(
-                                                                                                "image/minus.png",
-                                                                                                width: 15.0,
-                                                                                                height: 15.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                            onTap: (){
-                                                                                              setState(() {
-                                                                                                if(food_item [index].subItem[1].subQuantity==0){
-
-                                                                                                }else{
-                                                                                                  food_item [index].subItem[1].subQuantity--;
-
-                                                                                                }
-
-                                                                                              });
-                                                                                            },
-                                                                                          ),
-                                                                                          new Text(
-                                                                                            "${food_item [index].subItem[1].subQuantity}",
-                                                                                            style: new TextStyle(
-                                                                                                fontFamily:
-                                                                                                "customBold",
-                                                                                                fontSize: 13),
-                                                                                          ),
-                                                                                          new InkWell(
-                                                                                            onTap: (){
-                                                                                              setState(() {
-                                                                                                food_item [index].subItem[1].subQuantity++;
-
-                                                                                              });
-                                                                                            },
-                                                                                            child: Padding(
-                                                                                              padding:
-                                                                                              const EdgeInsets
-                                                                                                  .all(15.0),
-                                                                                              child: new Image.asset(
-                                                                                                "image/plus.png",
-                                                                                                width: 15.0,
-                                                                                                height: 15.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-
-                                                                                    flex: 0,
-                                                                                  )
-                                                                                ],
-                                                                              ),
-
-
-                                                                            ),
-                                                                            new Container(
-                                                                              margin: EdgeInsets.fromLTRB(00.0, 5.0, 0.0, 5.0),
-
-                                                                              height: 0.5,
-                                                                              color: ColorValues.TIME_NOTITFICAITON,
-                                                                            ),
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              5.0,
-                                                                              5.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              Padding(
-                                                                                padding:
-                                                                                const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                                                                                child: new Row(
-                                                                                  children: [
-                                                                                    new Expanded(
-                                                                                      child: new Text(
-                                                                                        "Total",
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customRegular",
-                                                                                            color: ColorValues.TEXT_COLOR,
-                                                                                            fontSize: 15),
-                                                                                      ),
-                                                                                      flex: 1,
-                                                                                    ),
-                                                                                    new Expanded(
-                                                                                      child: new Text(
-                                                                                        "₹ ${(double.tryParse('${food_item[index].quntity}') * double.tryParse('${sizePrice}'))+(double.tryParse('${food_item[index].subItem[0].price}')*double.tryParse('${food_item[index].subItem[0].subQuantity}'))+(double.tryParse('${food_item[index].subItem[1].price}')*double.tryParse('${food_item[index].subItem[1].subQuantity}'))}",
-                                                                                        style: new TextStyle(
-                                                                                            fontFamily: "customRegular",
-                                                                                            color: ColorValues.YELLOW,
-                                                                                            fontSize: 15),
-                                                                                      ),
-                                                                                      flex: 0,
-                                                                                    )
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-
-                                                                            ),
-
-                                                                            PaddingWrap.paddingfromLTRB(
-                                                                              5.0,
-                                                                              5.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              Padding(
-                                                                                padding:
-                                                                                const EdgeInsets.fromLTRB(5.0, 5, 15, 5),
-                                                                                child: new Row(
-
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-                                                                                    new Expanded(
-                                                                                      child:
-                                                                                      Padding(
-                                                                                        padding:
-                                                                                        const EdgeInsets.fromLTRB(
-                                                                                            10.0, 10, 5, 10),
-                                                                                        child: new Row(
-                                                                                          children: [
-                                                                                            new InkWell(
-                                                                                                child: Padding(
-                                                                                                  padding:
-                                                                                                  const EdgeInsets
-                                                                                                      .all(15.0),
-                                                                                                  child: new Image.asset(
-                                                                                                    "image/minus.png",
-                                                                                                    width: 20.0,
-                                                                                                    height: 20.0,
-                                                                                                  ),
+                                                                                              child: Padding(
+                                                                                                padding:
+                                                                                                const EdgeInsets
+                                                                                                    .all(15.0),
+                                                                                                child: new Image.asset(
+                                                                                                  "image/minus.png",
+                                                                                                  width: 20.0,
+                                                                                                  height: 20.0,
                                                                                                 ),
-                                                                                                onTap: () {
+                                                                                              ),
+                                                                                              onTap: () {
 
-                                                                                                  if
-                                                                                                  (food_item[index].quntity == 1) {
+                                                                                                if
+                                                                                                (food_item[index].quntity == 1) {
 
-                                                                                                  } else {
-                                                                                                    setState(() {
-                                                                                                      food_item[index].quntity--;
-                                                                                                    });
-                                                                                                  }
-                                                                                                }
-
-
-                                                                                            ),
-                                                                                            new Text(
-                                                                                              '${ food_item[index].quntity}',
-                                                                                              style: new TextStyle(
-                                                                                                  fontFamily:
-                                                                                                  "customBold",
-                                                                                                  fontSize: 15),
-                                                                                            ),
-                                                                                            new InkWell(
-                                                                                                child: Padding(
-                                                                                                  padding:
-                                                                                                  const EdgeInsets
-                                                                                                      .all(15.0),
-                                                                                                  child: new Image.asset(
-                                                                                                    "image/plus.png",
-                                                                                                    width: 20.0,
-                                                                                                    height: 20.0,
-                                                                                                  ),
-                                                                                                ),
-                                                                                                onTap: () {
-
+                                                                                                } else {
                                                                                                   setState(() {
-                                                                                                    food_item[index].quntity++;
+                                                                                                    food_item[index].quntity--;
                                                                                                   });
-                                                                                                }),
-                                                                                          ],
-                                                                                        ),
-                                                                                      ),
-
-                                                                                      flex: 0,
-                                                                                    ),
-                                                                                    new Expanded(
-                                                                                      child:
-                                                                                      Padding(
-                                                                                        padding:
-                                                                                        const EdgeInsets.fromLTRB(
-                                                                                            10.0, 10, 5, 10),
-                                                                                        child:
-                                                                                        new Container(
-                                                                                          height: 35,
-                                                                                          margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                                                                          child: new Material(
-                                                                                            elevation: 5.0,
-                                                                                            borderRadius: BorderRadius.circular(5.0),
-                                                                                            color: ColorValues.TEXT_COLOR,
-                                                                                            child: MaterialButton(
-                                                                                                minWidth: 150,
-                                                                                                padding: EdgeInsets.fromLTRB(
-                                                                                                    2.0, 2.0, 2.0, 2.0),
-                                                                                                onPressed: () {
+                                                                                                }
+                                                                                              }
 
 
-                                                                                                  double price = double.tryParse(
-                                                                                                      '${food_item[index].price}');
-                                                                                                  double total = double.tryParse(
-                                                                                                      '${food_item[index].quntity}') *
-                                                                                                      double.tryParse(
-                                                                                                          '${sizePrice}');
-                                                                                                  DBProvider.db.FinalClient(
-                                                                                                      '${food_item[index].id}',
-                                                                                                      food_item[index].foodName,
-                                                                                                      food_item[index].size[0].size,
-                                                                                                      '${food_item[index].quntity}',
-                                                                                                      '${price}',
-                                                                                                      food_item[index].discription,
-                                                                                                      '0.0',
-                                                                                                      '0.0',
-                                                                                                      '0.0',
-                                                                                                      '${food_item[index].quntity}',
-                                                                                                      '0.0',
-                                                                                                      '0.0',
-                                                                                                      '0.0',
-                                                                                                      '0.0',
-                                                                                                      '0.0',
-                                                                                                      'organic',
-                                                                                                      food_item[index].photo,
-                                                                                                      '${total}',
-                                                                                                      '${price}',
-                                                                                                      sizeId,
-                                                                                                      sizeName,
-                                                                                                      sizePrice
-                                                                                                  );
-                                                                                                  Navigator.pop(context);
-
-                                                                                                  Fluttertoast.showToast(
-                                                                                                    msg: Constant.ADD_TO_CART,
-                                                                                                    toastLength: Toast.LENGTH_SHORT,
-                                                                                                    //    gravity: ToastGravity.CENTER,
-                                                                                                    timeInSecForIosWeb: 1,
-                                                                                                    //  backgroundColor: Colors.red,
-                                                                                                    //   textColor: Colors.white,
-                                                                                                    //  fontSize: 16.0
-                                                                                                  );
-                                                                                                },
-                                                                                                child: Text(
-                                                                                                  "Add To Cart",
-                                                                                                  textAlign: TextAlign.center,
-                                                                                                  style: TextStyle(
-                                                                                                    color: ColorValues.BACKGROUND,
-                                                                                                    fontSize: 13.0,
-                                                                                                    fontFamily: "customRegular",
-                                                                                                  ),
-                                                                                                )),
                                                                                           ),
-                                                                                        ),
+                                                                                          new Text(
+                                                                                            '${ food_item[index].quntity}',
+                                                                                            style: new TextStyle(
+                                                                                                fontFamily:
+                                                                                                "customBold",
+                                                                                                fontSize: 15),
+                                                                                          ),
+                                                                                          new InkWell(
+                                                                                              child: Padding(
+                                                                                                padding:
+                                                                                                const EdgeInsets
+                                                                                                    .all(15.0),
+                                                                                                child: new Image.asset(
+                                                                                                  "image/plus.png",
+                                                                                                  width: 20.0,
+                                                                                                  height: 20.0,
+                                                                                                ),
+                                                                                              ),
+                                                                                              onTap: () {
 
+                                                                                                setState(() {
+                                                                                                  food_item[index].quntity++;
+                                                                                                });
+                                                                                              }),
+                                                                                        ],
                                                                                       ),
-
-                                                                                      flex: 0,
                                                                                     ),
 
+                                                                                    flex: 0,
+                                                                                  ),
+                                                                                  new Expanded(
+                                                                                    child:
+                                                                                    Padding(
+                                                                                      padding:
+                                                                                      const EdgeInsets.fromLTRB(
+                                                                                          10.0, 10, 5, 10),
+                                                                                      child:
+                                                                                      new Container(
+                                                                                        height: 35,
+                                                                                        margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                                                                        child: new Material(
+                                                                                          elevation: 5.0,
+                                                                                          borderRadius: BorderRadius.circular(5.0),
+                                                                                          color: ColorValues.TEXT_COLOR,
+                                                                                          child: MaterialButton(
+                                                                                              minWidth: 150,
+                                                                                              padding: EdgeInsets.fromLTRB(
+                                                                                                  2.0, 2.0, 2.0, 2.0),
+                                                                                              onPressed: () {
 
-                                                                                  ],
-                                                                                ),
+
+                                                                                                double price = double.tryParse(
+                                                                                                    '${food_item[index].price}');
+                                                                                                double total = double.tryParse(
+                                                                                                    '${food_item[index].quntity}') *
+                                                                                                    double.tryParse(
+                                                                                                        '${sizePrice}');
+                                                                                                DBProvider.db.FinalClient(
+                                                                                                    '${food_item[index].id}',
+                                                                                                    food_item[index].foodName,
+                                                                                                    sizeName,
+                                                                                                    '${food_item[index].quntity}',
+                                                                                                    '${price}',
+                                                                                                    food_item[index].discription,
+                                                                                                    '0.0',
+                                                                                                    '0.0',
+                                                                                                    '0.0',
+                                                                                                    '${food_item[index].quntity}',
+                                                                                                    '0.0',
+                                                                                                    '0.0',
+                                                                                                    '0.0',
+                                                                                                    '0.0',
+                                                                                                    '0.0',
+                                                                                                    'organic',
+                                                                                                    food_item[index].photo,
+                                                                                                    '${total}',
+                                                                                                    '${price}',
+                                                                                                    sizeId,
+                                                                                                    sizeName,
+                                                                                                    sizePrice
+                                                                                                );
+                                                                                                Fluttertoast.showToast(
+                                                                                                  msg: Constant.ADD_TO_CART,
+                                                                                                  toastLength: Toast.LENGTH_SHORT,
+                                                                                                  //    gravity: ToastGravity.CENTER,
+                                                                                                  timeInSecForIosWeb: 1,
+                                                                                                  //  backgroundColor: Colors.red,
+                                                                                                  //   textColor: Colors.white,
+                                                                                                  //  fontSize: 16.0
+                                                                                                );
+
+                                                                                                Navigator.pop(context);
+
+
+                                                                                              },
+                                                                                              child: Text(
+                                                                                                "Add To Cart",
+                                                                                                textAlign: TextAlign.center,
+                                                                                                style: TextStyle(
+                                                                                                  color: ColorValues.BACKGROUND,
+                                                                                                  fontSize: 13.0,
+                                                                                                  fontFamily: "customRegular",
+                                                                                                ),
+                                                                                              )),
+                                                                                        ),
+                                                                                      ),
+
+                                                                                    ),
+
+                                                                                    flex: 0,
+                                                                                  ),
+
+
+                                                                                ],
                                                                               ),
-
                                                                             ),
 
+                                                                          ),
 
-                                                                          ],
-                                                                        ),
+
+                                                                        ],
                                                                       ),
-
-
                                                                     ),
 
-                                                                    );
 
-                                                                });
-                                                          }
+                                                                  ),
+
+                                                                  );
+
+                                                              });
+                                                        }
 
 
-                                                      );
+                                                    );
                                                       }),
                                                 ],
                                               ),

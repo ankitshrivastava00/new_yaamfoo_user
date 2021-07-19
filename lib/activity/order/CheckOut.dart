@@ -68,7 +68,7 @@ class CheckOutState extends State<CheckOut> {
     super.initState();
     getSharedPreferences();
     // setState(() => coupan = '${widget.code}');
-   // _calcTotal();
+    _calcTotal();
     setState(() {});
   }
 
@@ -84,6 +84,7 @@ class CheckOutState extends State<CheckOut> {
   }
 
 
+/*
   void _calcTotal() async {
     var total = (await DBProvider.db.calculateTotal())[0]['Total'];
     var ofr = (await DBProvider.db.calculateOfferTotal())[0]['Discount'];
@@ -100,6 +101,27 @@ class CheckOutState extends State<CheckOut> {
       setState(() => paid_amount = 0.0);
     }
   }
+*/
+
+  Future _calcTotal() async {
+    //var total = (await DBProvider.db.calculateSizePrice())[0]['sizePrice'];
+    var total = (await DBProvider.db.calculateTotal())[0]['Total'];
+    // var ofr = (await DBProvider.db.calculateOfferTotal())[0]['Discount'];
+    // con = double.parse('${widget.price}');
+
+    print('sdgfsfsdgsdfgsd ${total}');
+    if (total != null) {
+      // setState(() => carttotal = ofr);
+      setState(() => carttotal = total);
+      //   setState(() => offertotal = ofr);
+      // setState(() => paid_amount = carttotal - offertotal + deliveryamount);
+    } else {
+      setState(() => carttotal = 0.0);
+      //   setState(() => discount_amount = 0.0);
+      //  setState(() => paid_amount = 0.0);
+    }
+  }
+
 
   Future dltCoupan() async {
     var total = (await DBProvider.db.calculateTotal())[0]['Total'];
@@ -250,7 +272,6 @@ class CheckOutState extends State<CheckOut> {
   Widget build(BuildContext context) {
     Constant.applicationContext = context;
 
-    if (carttotal == 0.0) {
       return WillPopScope(
         onWillPop: () {
 
@@ -986,10 +1007,7 @@ class CheckOutState extends State<CheckOut> {
           ),
         ),
       );
-    } else {
-      return Center(
 
-      );
-    }
+   
   }
 }

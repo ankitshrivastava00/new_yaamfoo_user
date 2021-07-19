@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yaamfoo/activity/OtpVerify.dart';
 import 'package:yaamfoo/activity/SignUp.dart';
-import 'package:yaamfoo/activity/socialLogin.dart';
 import 'package:yaamfoo/comman/ApiConstant.dart';
 import 'package:yaamfoo/comman/CustomProgressLoader.dart';
 import 'package:yaamfoo/comman/ToastWrap.dart';
@@ -20,65 +19,22 @@ import 'ForgotPassword.dart';
 import 'package:yaamfoo/values/ColorValues.dart';
 import 'StartScreen.dart';
 
-class Login extends StatefulWidget {
-  Login({Key key, this.title}) : super(key: key);
+class SocialLogin extends StatefulWidget {
+  SocialLogin({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  LoginState createState() => LoginState();
+  SocialLoginState createState() => SocialLoginState();
 }
 
-class LoginState extends State<Login> {
+class SocialLoginState extends State<SocialLogin> {
   int _counter = 0;
   bool obscureText = true, passwordVisible = false,
       mobileVisible = false;
 
   String reply="";
   String _mobile, _password;
-  static final FacebookLogin facebookSignIn = new FacebookLogin();
-
-  String _message = 'Log in/out by pressing the buttons below.';
-  Future<Null> _login() async {
-    final FacebookLoginResult result =
-    await facebookSignIn.logIn(['email']);
-
-    switch (result.status) {
-      case FacebookLoginStatus.loggedIn:
-        final FacebookAccessToken accessToken = result.accessToken;
-        _showMessage('''
-         Logged in!
-         
-         Token: ${accessToken.token}
-         User id: ${accessToken.userId}
-         Expires: ${accessToken.expires}
-         Permissions: ${accessToken.permissions}
-         Declined permissions: ${accessToken.declinedPermissions}
-         ''');
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        _showMessage('Login cancelled by the user.');
-        break;
-      case FacebookLoginStatus.error:
-        _showMessage('Something went wrong with the login process.\n'
-            'Here\'s the error Facebook gave us: ${result.errorMessage}');
-        break;
-    }
-  }
-
-  Future<Null> _logOut() async {
-    await facebookSignIn.logOut();
-    _showMessage('Logged out.');
-  }
-
-  GoogleSignIn _googleSignIn = GoogleSignIn();
-  FirebaseAuth _auth;
-  bool isUserSignedIn = false;
-  void _showMessage(String message) {
-    setState(() {
-      _message = message;
-    });
-  }
 
 
   Future<bool> _onWillPop() {
@@ -94,59 +50,8 @@ class LoginState extends State<Login> {
     // TODO: implement initState
     super.initState();
     getSharedPreferences();
-    initApp();
   }
 
-  void initApp() async {
-    FirebaseApp defaultApp = await Firebase.initializeApp();
-    _auth = FirebaseAuth.instanceFor(app: defaultApp);
-    checkIfUserIsSignedIn();
-  }
-
-  void checkIfUserIsSignedIn() async {
-    var userSignedIn = await _googleSignIn.isSignedIn();
-
-    setState(() {
-      isUserSignedIn = userSignedIn;
-    });
-  }
-
-  Future<User> _handleSignIn() async {
-    User user;
-    bool userSignedIn = await _googleSignIn.isSignedIn();
-
-    setState(() {
-      isUserSignedIn = userSignedIn;
-    });
-
-    if (isUserSignedIn) {
-      user = _auth.currentUser;
-    }
-    else {
-      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      user = (await _auth.signInWithCredential(credential)).user;
-      userSignedIn = await _googleSignIn.isSignedIn();
-      setState(() {
-        isUserSignedIn = userSignedIn;
-      });
-    }
-
-    return user;
-  }
-
-  void onGoogleSignIn(BuildContext context) async {
-    User user = await _handleSignIn();
-
-
-socialLogin(user.displayName,user.email,'123456',user.phoneNumber);
-  }
 
   getSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
@@ -258,111 +163,6 @@ socialLogin(user.displayName,user.email,'123456',user.phoneNumber);
     }
   }
 
-  void socialLogin(name,_email,password,mobile) async{
-
-           try {
-          print("body+++++");
-          CustomProgressLoader.showLoader(context);
-          var url =Uri.parse(ApiConstant.SIGNUP_URL);
-          Map<String, String> headers = {"Content-type": "application/json"};
-          Map map = {
-            "email":_email,
-            "password":password,
-            "phone_number":mobile,
-            "first_name":name,
-            "last_name":name,
-            "user_type":"CUSTOMER"
-          };
-          // make POST request
-          Response response =
-          await post(url, headers: headers, body: json.encode(map));
-          // check the status code for the result
-          // this API passes back the id of the new item added to the body
-          String body = response.body;
-          CustomProgressLoader.cancelLoader(context);
-          var data = json.decode(body);
-          if (data["status"].toString() == "201") {
-            String id =data['user']['id'].toString();
-
-            prefs.setString(Constant.USR_OTP, data['user']['otp'].toString());
-           // prefs.setString(Constant.USER_MOBILE, data['user']['phone_number']==null?"": data['user']['phone_number'].toString());
-         //   prefs.setString(Constant.USER_NAME, data['user']['first_name']==null?"": data['user']['first_name'].toString());
-         //   prefs.setString(Constant.USER_EMAIL, data['user']['email']==null?"": data['user']['email'].toString());
-          //  prefs.setString(Constant.USER_TOKEN, data['token']);
-            prefs.setString(Constant.USER_ID, id);
-
-
-
-
-            if(data['user']['first_name']!=null){
-              prefs.setString(Constant.USER_NAME, data['user']['first_name']);
-            }else{
-              prefs.setString(Constant.USER_NAME, "");
-            }
-
-
-            if(data['token']!=null){
-              prefs.setString(Constant.USER_TOKEN, data['token']);
-            }else{
-              prefs.setString(Constant.USER_TOKEN, "");
-            }
-
-
-            if(data['user']['email']!=null){
-              prefs.setString(Constant.USER_EMAIL, data['user']['email']);
-            }else{
-              prefs.setString(Constant.USER_EMAIL, "");
-            }
-
-
-            Fluttertoast.showToast(
-              msg:Constant.USER_REGISTER,
-              toastLength: Toast.LENGTH_SHORT,
-              // gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              //  backgroundColor: Colors.red,
-              //   textColor: Colors.white,
-              //  fontSize: 16.0
-            );
-
-            if(data['user']['phone_number']!=null){
-              prefs.setString(Constant.USER_MOBILE, data['user']['phone_number']);
-              Navigator.pushReplacement(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          OtpVerify()));
-
-            }else{
-              prefs.setString(Constant.USER_MOBILE, "");
-              Navigator.pushReplacement(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          SocialLogin()));
-            }
-
-          } else {
-            Fluttertoast.showToast(
-              msg:Constant.USER_ALREADY,
-              toastLength: Toast.LENGTH_SHORT,
-              // gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              //  backgroundColor: Colors.red,
-              //   textColor: Colors.white,
-              //  fontSize: 16.0
-            );
-            //  ToastWrap.showSucess("User not registered", context);
-            // ToastWrap.showSucess("Number Not Register. Please Sign Up", context);
-          }
-        } catch (e) {
-          print("Error+++++" + e.toString());
-          CustomProgressLoader.cancelLoader(context);
-
-        }
-
-
-  }
 
 
   @override
@@ -515,124 +315,7 @@ socialLogin(user.displayName,user.email,'123456',user.phoneNumber);
                         )),
                   ),
                 ),
-                 new Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                  child: new Text("Or", style: TextStyle(
-                    fontSize: 14.0,
-                    color: ColorValues.TEXT_COLOR,
-                    fontFamily: "customLight",
-                  ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
 
-                new Container(
-                  margin: EdgeInsets.fromLTRB(22.0, 5.0, 22.0, 0.0),
-                  child:
-                  new Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                  new Container(
-                    //  height: 30,
-                      width: 120.0,
-                      padding: EdgeInsets.all(7.0),
-                      decoration: new BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5.0),
-                  ),
-
-                  child:
-                      new InkWell(
-                          onTap: (){
-                            _login();
-                          },
-                          child:
-                  new Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: [
-                        new Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 0.0),
-                          child: new Image.asset('image/facebook.png'),
-                          width: 30.0,
-                              height: 20.0,
-                        ),
-                        new Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                          child: new Text("Facebook", style: TextStyle(
-                            fontSize: 12.0,
-                            color: ColorValues.TEXT_COLOR,
-                            fontFamily: "customRegular",
-                          ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ])
-
-                  ),
-                  ),
-                      new Container(
-                        //  height: 30,
-                         // width: MediaQuery.of(context).size.width,
-                          width: 120.0,
-                          padding: EdgeInsets.all(7.0),
-                          decoration: new BoxDecoration(
-                              color: Colors.white,
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          child:
-                              InkWell(
-                                  onTap: (){
-                                    onGoogleSignIn(context);
-
-                                  },
-                                  child:
-                          new Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                new Container(
-                                  margin: EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 0.0),
-                                  child: new Image.asset('image/gmail.png'),
-                                  width: 20.0,
-                                  height: 20.0,
-                                ),
-                                new Container(
-                                  margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                                  child: new Text("Gmail", style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: ColorValues.TEXT_COLOR,
-                                    fontFamily: "customRegular",
-                                  ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-
-
-                              ])
-                      ),
-                      ),
-
-                    ],
-                  ),
-
-                ),
-
-                new GestureDetector(
-
-                  child: new Container(
-                    margin: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
-                    child: new Text("By Continuing, you agree to our Tearms of Service Privacy Policy Content Policy", style: TextStyle(
-                        fontSize: 12.0,
-                      color: ColorValues.TEXT_COLOR,
-                      fontFamily: "customLight",
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                )
               ],
             ),
           ),

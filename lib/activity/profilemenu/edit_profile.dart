@@ -200,28 +200,25 @@ setState(() {
           String body = response.body;
           CustomProgressLoader.cancelLoader(context);
           var data = json.decode(body);
-         // if (data["status"].toString() == "201") {
-            /* {
-              "message": "Login successfully",
-    "user": {
-    "username": "username",
-    "first_name": "rahul",
-    "last_name": "",
-    "email": "superadmin@gsms.com",
-    "user_type": "CUSTOMER",
-    "phone_number": "9713198098",
-    "latitude": null,
-    "longitude": null,
-    "otp": "123456"
-    },
-    "token": "07eb54629b8cbf30eb8ee150b53333037fba239b",
-    "status": 201
-    }*/
+
+          if(data['phone_number']!=null){
+            prefs.setString(Constant.USER_MOBILE, data['phone_number']);
+          }else{
+            prefs.setString(Constant.USER_MOBILE, "");
+          }
 
 
-            prefs.setString(Constant.USER_MOBILE, data['phone_number'].toString());
+          if(data['first_name']!=null){
             prefs.setString(Constant.USER_NAME, data['first_name']);
+          }else{
+            prefs.setString(Constant.USER_NAME, "");
+          }
+
+          if(data['email']!=null){
             prefs.setString(Constant.USER_EMAIL, data['email']);
+          }else{
+            prefs.setString(Constant.USER_EMAIL, "");
+          }
 
           Fluttertoast.showToast(
             msg:Constant.UPDATE_PROFILE,
@@ -234,20 +231,6 @@ setState(() {
           );
 
 
-         /* } else {
-            Fluttertoast.showToast(
-              msg:Constant.BOTH_NU_EM_V,
-              toastLength: Toast.LENGTH_SHORT,
-              //    gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              //  backgroundColor: Colors.red,
-              //   textColor: Colors.white,
-              //  fontSize: 16.0
-            );
-            //ToastWrap.showSucess("User not registered", context);
-            // ToastWrap.showSucess("Number Not Register. Please Sign Up", context);
-          }*/
-          //  print("body+++++" + body.toString());
         } catch (e) {
           print("Error+++++" + e.toString());
           CustomProgressLoader.cancelLoader(context);

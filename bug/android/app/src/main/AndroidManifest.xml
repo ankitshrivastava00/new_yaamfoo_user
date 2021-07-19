@@ -1,25 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sis.yaamfoo">
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission
-        android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <application
-        android:usesCleartextTraffic="true"
-        android:label="yaamfoo"
-        android:icon="@drawable/launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyClIYbQ9twYynSk1Z7JG30osdUQJfW7Ai0"/>
-        <!-- AIzaSyAajvnie4tBTTrnyXgxbdjy34qAO-aPKbg -->
-
+    package="com.example.bug">
+   <application
+        android:label="bug"
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
-
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -48,27 +37,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
-
     </application>
 </manifest>
